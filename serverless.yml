@@ -1,18 +1,18 @@
 service: aws-node-http-api-project
-frameworkVersion: '3'
+frameworkVersion: "3"
 
 provider:
   name: aws
   runtime: nodejs14.x
-  region: 'ca-central-1'
+  region: "ca-central-1"
   iam:
     role:
       statements:
-        -   Effect:   Allow
-            Action: 
-                  -  dynamodb:*
-            Resource:
-                  -  arn:aws:dynamodb:ca-central-1:113264789551:table/taskTable    
+        - Effect: Allow
+          Action:
+            - dynamodb:*
+          Resource:
+            - arn:aws:dynamodb:ca-central-1:113264789551:table/taskTable
 
 functions:
   hello:
@@ -26,7 +26,13 @@ functions:
     events:
       - httpApi:
           path: /task
-          method: post        
+          method: post
+  getTasks:
+    handler: src/getTasks.getTasks
+    events:
+      - httpApi:
+          path: /tasks
+          method: get
 
 resources: # CloudFormation template syntax
   Resources:

@@ -24,7 +24,7 @@ module.exports.addTask = async (event) => {
     .promise();
 
   return {
-    statusCode: 200,
-    body: JSON.stringify(newTask),
+    status: 200,
+    body: { newTask },
   };
 };
