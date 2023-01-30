@@ -1,0 +1,39 @@
+service: aws-node-http-api-project
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: 'ca-central-1'
+  iam:
+    role:
+      statements:
+        -   Effect:   Allow
+            Action: 
+                  -  dynamodb:*
+            Resource:
+                  -  arn:aws:dynamodb:ca-central-1:113264789551:table/taskTable    
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - httpApi:
+          path: /
+          method: get
+
+resources: # CloudFormation template syntax
+  Resources:
+    taskTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: taskTable
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
